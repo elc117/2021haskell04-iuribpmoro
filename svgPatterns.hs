@@ -19,7 +19,7 @@ greenPalette n = [(0, 80+i*10, 0) | i <- [0..n] ]
 -- O '$' é uma facilidade sintática que substitui parênteses
 -- O cycle é uma função bacana -- procure saber mais sobre ela :-)
 rgbPalette :: Int -> [(Int,Int,Int)]
-rgbPalette n = take n $ cycle [(255,0,0),(0,255,0),(0,0,255)]
+rgbPalette n = take n $ cycle [(255, 255, 250),(13, 92, 99),(68, 161, 160),(120, 205, 215),(36, 123, 123),(255, 255, 250),(255, 255, 250), (244, 144, 151)]
 
 
 
@@ -29,8 +29,8 @@ rgbPalette n = take n $ cycle [(255,0,0),(0,255,0),(0,0,255)]
 
 genRectsInLine :: Int -> [Rect]
 genRectsInLine n  = [((m*(w+gap), 0.0), w, h) | m <- [0..fromIntegral (n-1)]]
-  where (w,h) = (50,50)
-        gap = 10
+  where (w,h) = (150,150)
+        gap = 0
 
 
 -------------------------------------------------------------------------------
@@ -67,13 +67,15 @@ svgElements func elements styles = concat $ zipWith func elements styles
 
 main :: IO ()
 main = do
-  writeFile "rects.svg" $ svgstrs
+  writeFile "figs.svg" $ svgstrs
   where svgstrs = svgBegin w h ++ svgfigs ++ svgEnd
-        svgfigs = svgElements svgRect rects (map svgStyle palette)
-        rects = genRectsInLine nrects
+        --svgfigs = svgElements svgRect rects (map svgStyle palette)
+        svgfigs = svgElements svgRect [((0,0),100,100),((0,350),100,100),((350,0),100,100),((350,350),100,100),((100,100),250,250),((150,150),50,50),((250,150),50,50),((150,250),150,50)] (map svgStyle palette)
+        --rects = genRectsInLine nrects
+        --rects = [((0,500),75,75),((0,0),75,75),((1500,500),75,75),((1500,0),75,75)]
         palette = rgbPalette nrects
-        nrects = 10
-        (w,h) = (1500,500) -- width,height da imagem SVG
+        nrects = 8
+        (w,h) = (500,500) -- width,height da imagem SVG
 
 
 
